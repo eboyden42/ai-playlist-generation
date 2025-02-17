@@ -2,9 +2,10 @@ import openaiapi
 from src.openaiapi import getPlaylist, reformatPlaylist, getPlaylistInListForm, getGenre
 
 #sample input
-songs = ["power flower - stevie wonder, sumthin' sumthin', i like it - Debarge"]
+sampleSongs = ["power flower - stevie wonder, sumthin' sumthin', i like it - Debarge"]
+songs = []
 length = 10;
-getUserInput = False
+getUserInput = True
 
 if getUserInput:
     toggle = True
@@ -24,6 +25,8 @@ if getUserInput:
         else:
             toggle=False
             length = int(scan)
+else:
+    songs = sampleSongs
 
 #get playlist recommendations from openai
 list = getPlaylistInListForm(length, songs)
