@@ -9,7 +9,7 @@ def getPlaylist(length, songs):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=200
+        max_tokens=200+int((len(songs)/2))
     )
     return response.choices[0].message.content
 
@@ -25,10 +25,13 @@ def reformatPlaylist(playlist):
 def getPlaylistInListForm(length, songs):
     plainPlaylist = getPlaylist(length, songs)
     csvPlaylist = reformatPlaylist(plainPlaylist)
-    return csvPlaylist.split(",")
+    playlist = csvPlaylist.split(",")
+    for i in range(len(playlist)):
+        playlist[i] = playlist[i].strip()
+    return playlist
 
 def getGenre(songs):
-    prompt = "Based on the following playlist output 1-3 words describing the general genre or vibe" + str(songs)
+    prompt = "Based on the following playlist output 1-3 words describing the general genre or vibe. (get creative!)" + str(songs)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
