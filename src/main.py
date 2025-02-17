@@ -1,8 +1,7 @@
-from openai import OpenAI
+import openaiapi
+from src.openaiapi import getPlaylist, reformatPlaylist, getPlaylistInListForm, getGenre
 
-client = OpenAI()  # Store API key securely!
-
-#get user input for songs
+#sample input
 songs = ["power flower - stevie wonder, sumthin' sumthin', i like it - Debarge"]
 length = 10;
 getUserInput = False
@@ -26,15 +25,9 @@ if getUserInput:
             toggle=False
             length = int(scan)
 
-#Construct api request
-prompt = "Make a playist that is "+str(length)+" songs long, and has the same style and theme as these songs: "+str(songs)+". Please just list out the song names and their artists."
-
-# Make API request
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}],
-    max_tokens=200
-)
-
-# Print the response
-print(response.choices[0].message.content)
+#get playlist recommendations from openai
+list = getPlaylistInListForm(length, songs)
+genre = getGenre(songs)
+print(genre+":\n")
+for element in list:
+    print(element)
